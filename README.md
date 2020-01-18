@@ -19,25 +19,22 @@ It is designed to automate sharing the listings for every item in your closet wi
 #### Git Clone
 
 First clone the repository in terminal:
-* `git clone https://github.com/jmausolf/poshmark_sharing
-
-Change directories to enter the local repository:
-* `cd poshmark_sharing`
+* `git clone git@github.com:ktji/poshmark_sharing-master.git
 
 #### User Credentials
 
-You will need to create a `credentials.py` file. It is recommended to simply edit the `example_credentials.py` file and rename it.
+You will need to modify a `credentials.py` file.
 
 ```python
 poshmark_email = "myemail@gmail.com"
-poshmark_password = "mysupersecret"
+poshmark_password = "mypassword"
+brands_to_share = 'brand1 brand2 brand3'
+driver_path = r'enteryourdriverpath'
 ```
 
-Edit the text in quotes to your actual username and password. Save the file and rename it credentials.py. Assuming you are in the repo directory, the bash command would be `mv example_credentials.py credentials.py` .
+Edit the text in quotes to your actual username and password. Enter the brands you want to share with a space between brands. 
+Download and edit your driver path. I used a chromedriver. You can also use firefox or other browsers drivers. Save the file.
 
-#### Firefox
-
-* *Recommendation:* Under Firefox Settings>Privacy: select "Always use private browsing mode" | This will help avoid Amazon captcha's. Adjusting the timing can also help if you have trouble.
 
 
 
@@ -53,28 +50,46 @@ This program can also be run in Jupyter with a Python 3 kernel. Simply launch `j
 
 ## Options
 
-There are a variety of optional arguments for the script, including timing, closet scroll size, and closet ordering.
+There are a variety of optional arguments for the script, including timing, closet scroll size, and audiance.
 
 ### Timing
 
-You can adjust the timing from the command line. The default is 3600 seconds (60 minutes). Here are some examples:
+You can adjust the timing in `credentials.py` file. The default is 3600 seconds (60 minutes). Here are some examples:
 
-* Every hour: `python share_war.py -t 3600`
-* Every two hours: `python share_war.py -t 7200`
+.
+
+```python
+# Update the timing, scroll
+timing_to_share = float(3600)
+timing_to_share = float(7200) # two hours
+```
 
 ### Closet Size
 
-If you have many listings, you may need to increase the number of times the application scrolls to the end of page (default, n=3), with the `-n` parameter:
+If you have many listings, you may need to increase the number of times the application scrolls to the end of page:
 
-* Scroll 5 times: `python share_war.py -n 5`
+```python
+scroll_my_closet = int(8) # scroll 8 times
+```
 
-### Closet Ordering
+If you want to skip one step of sharing, put False in `credentials.py` file. For example
 
-To preserve closet order, the closet items must be shared in their reverse order. To this end, the default sorting is `order=True`:
+```python
+# DO NOT run self share
+self_share = False
+scroll_my_closet = int(8)
+```
 
-* Preserve Closet Order, version 1:  `python share_war.py` 
-* Preserve Closet Order, version 2:  `python share_war.py -o True`
+### Shared audiance
 
-To override this option, you can reverse order the items of the closet with the following flag, `-o False`:
+You can choose to share to your followers or to the party. Edit one field in 'share_way.py'
 
-* Reverse Original Closet Order: `python share_war.py -o False`
+```python
+#Run Main App
+# change it to "party" or "followers" if you want to share listings to a party or followers
+deploy_share_war(scroll_my_closet, True, "party") # change party to followers if you want to share to your followers only
+```
+
+
+
+
